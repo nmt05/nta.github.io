@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Map with Named Marks and Coordinates</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #map {
+            width: 600px;
+            height: 600px;
+            border: 2px solid black;
+            position: relative;
+            margin: 20px auto;
+            background-color: #f0f0f0;
+        }
+        .mark {
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            position: absolute;
+            border-radius: 50%;
+        }
+        .mark-name {
+            position: absolute;
+            font-size: 12px;
+            color: black;
+            font-weight: bold;
+            white-space: nowrap;
+            margin-top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .mark-coordinates {
+            position: absolute;
+            font-size: 10px;
+            color: black;
+            white-space: nowrap;
+            margin-top: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        #controls {
+            text-align: center;
+            margin-top: 20px;
+        }
+        input {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="map"></div>
+    <div id="controls">
+        <input type="number" id="x-coordinate" placeholder="Enter X coordinate (0-600)" min="0" max="600">
+        <input type="number" id="y-coordinate" placeholder="Enter Y coordinate (0-600)" min="0" max="600">
+        <input type="text" id="mark-name" placeholder="Enter Mark Name">
+        <button onclick="addNamedMark()">Add Named Mark</button>
+    </div>
+
+    <script>
+        function addNamedMark() {
+            const x = parseInt(document.getElementById('x-coordinate').value);
+            const y = parseInt(document.getElementById('y-coordinate').value);
+            const name = document.getElementById('mark-name').value.trim();
+
+            if (x >= 0 && x <= 600 && y >= 0 && y <= 600 && name) {
+                const mark = document.createElement('div');
+                mark.className = 'mark';
+                mark.style.left = `${x - 5}px`;
+                mark.style.top = `${600 - y - 5}px`;
+                document.getElementById('map').appendChild(mark);
+
+                const markName = document.createElement('div');
+                markName.className = 'mark-name';
+                markName.style.left = `${x}px`;
+                markName.style.top = `${600 - y + 0}px`;
+                markName.innerText = name;
+                document.getElementById('map').appendChild(markName);
+
+                const markCoordinates = document.createElement('div');
+                markCoordinates.className = 'mark-coordinates';
+                markCoordinates.style.left = `${x}px`;
+                markCoordinates.style.top = `${600 - y + 30}px`;
+                markCoordinates.innerText = `(${x}, ${y})`;
+                document.getElementById('map').appendChild(markCoordinates);
+            } else {
+                alert('Please enter valid coordinates (0-600) and a name.');
+            }
+        }
+    </script>
+
+</body>
+</html>
